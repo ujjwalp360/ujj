@@ -1,6 +1,6 @@
 import streamlit as st
 import mysql.connector
-db = mysql.connector.connect(host="127.0.0.1",user="root",password="ujjwal",database="stock")
+db = st.experimental_connection('mysql', type='sql')
 c=db.cursor()
 def add_room(r):
     c = db.cursor()
