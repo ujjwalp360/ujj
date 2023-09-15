@@ -1,0 +1,66 @@
+import streamlit as st
+import mysql.connector
+db = mysql.connector.connect(host="localhost",user="root",password="kvajni",database="stock")
+c = db.cursor()
+def add_room(r):
+    c.execute("create table %s(name varchar(),id varchar(),qty_added int,add_date timestamp()",(r))
+    c.commit()
+def add_stock(r,n,i,q):
+    l=True
+    if l:
+        c.execute('insert into {r} values (%s,%s,%s)'),(n,i,int(q))
+        c.commit()
+    else:
+        l=False
+    return l
+def add_stockid(r,n,i):
+    l=add_stock(r,n,i,1)
+    return l
+def show_data(r=0,i=0,n=0):
+    l=True
+    if r!=0:
+        if i!=0:
+            if n!=0:
+                c.execute("select * from {r} where (name={n} or id={i})")
+                d=c.fetchall()
+            else:
+                c.execute("select * from {r} where (id={i})")
+                d=c.fetchall()         
+        else:
+            c.execute("select * from {r}")
+            d=c.fetchall()
+    else:
+        d=[]
+        c.execute("show tables")
+        f = c.fetchall()
+        for i in range(0,len(f)):
+            c.execute("select * from {d[i][0]}")
+            g=c.fetchall()
+            l.append(g)
+    return d
+current_page = st.session_state.get("current_page", "home")
+
+st.session_state.current_page = current_page
+t=False
+if current_page == "home":
+    st.title("Login")
+    i_=st.text_input("Enter Username")
+    p=st.text_input("Enter Password", type="password")
+    if st.button("Login as Editor"):
+        c.execute("SELECT id, password FROM user WHERE id = %s AND password = %s",(i_,p))
+        result = c.fetchall()
+        if result:
+            t=True
+            current_page = "option"
+st.session_state.current_page = current_page
+elif current_page == "option":
+                st.header("add room")
+                r = st.text_input("enter room no.")
+                b=st.button("insert", type="primary")
+                if b:
+                    c.execute(f"create table '{r}'(name varchar(20),id varchar(20),qty_added int")
+                    c.commit()
+                    st.success('added')
+                else:
+                    st.error('error')
+                    
