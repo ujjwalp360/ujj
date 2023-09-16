@@ -1,2 +1,2 @@
 SQLAlchemy==2.0.20
-mysqlclient==2.2.0
+mysqlclient-2.2.0-cp311-cp311-win_amd64.whl==2.2.0
