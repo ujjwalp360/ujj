@@ -1,5 +1,4 @@
 import streamlit as st
-import mysql.connector
 db = st.experimental_connection('mysql', type='sql')
 c=db.cursor()
 
