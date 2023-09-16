@@ -1,2 +1,2 @@
 SQLAlchemy==2.0.20
-git+https://github.com/PyMySQL/mysqlclient.git
+mysqlclient==2.2.0
