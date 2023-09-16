@@ -2,11 +2,7 @@ import streamlit as st
 import mysql.connector
 db = st.experimental_connection('mysql', type='sql')
 c=db.cursor()
-def add_room(r):
-    c = db.cursor()
-    cd=f"create table {r} (name varchar(20),id varchar(20),qty_added int(3))"
-    c.execute(cd)
-    c.commit()
+
 def add_stock(r,n,i,q):
         c=db.cursor()      
         db.commit()
@@ -17,10 +13,10 @@ def show_data(r=0,i=0,n=0):
     l=True
     if r!=0:
         if i!=0 or n!=0:
-             c.execute(f"select * from stock where room no={r} and (name={n} or id={i})")
+             c.execute(f"select * from stock where room_no={r} and (name={n} or id={i})")
              d=c.fetchall()
         else:
-            p="select * from stock where room no = %s"
+            p="select * from stock where room_no = %s"
             c.execute(p,(r,))
             d=c.fetchall()         
     else:
@@ -29,7 +25,7 @@ def show_data(r=0,i=0,n=0):
 
     return d
 def show_by_date(r='0',d='0'):
-    c.execute(f"select * from stock where room no =%s or date=%s",(r,d))
+    c.execute(f"select * from stock where room_no =%s or date=%s",(r,d))
     d=c.fetchall()
     return d
 t=False
